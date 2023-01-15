@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 
+import Drop from "../drop/drop";
 import "./weatherAPI.scss";
 
 const WeatherAPI = (props) => {
   const { coords } = props;
+
+  const [fullLocationInfo, setFullLocationInfo] = useState();
+  const [fullCurrentInfo, setFullCurrentInfo] = useState();
+  const [fullForecastInfo, setFullForecastInfo] = useState();
 
   const [temperature, setTemperature] = useState();
   const [icon, setIcon] = useState();
@@ -11,7 +16,13 @@ const WeatherAPI = (props) => {
   const [iconExplaining, setIconExplaining] = useState();
   const [feelsLike, setFeelsLike] = useState();
   const [currentDate, setCurrentDate] = useState();
+  const [currentParsedTimeInSpecificCity, setCurrentParsedTimeInSpecificCity] =
+    useState();
   const [todaysForecast, setTodaysForecast] = useState([]);
+
+  const [forecastForThreeDays, setForecastForThreeDays] = useState([]);
+
+  const [sunriseSunset, setSunriseSunset] = useState();
 
   const options = {
     method: "GET",
@@ -20,10 +31,11 @@ const WeatherAPI = (props) => {
       "X-RapidAPI-Host": "weatherapi-com.p.rapidapi.com",
     },
   };
+
   useEffect(() => {
     if (coords) {
       fetch(
-        `https://weatherapi-com.p.rapidapi.com/forecast.json?q=${coords[0]},${coords[1]}&days=3`,
+        `https://weatherapi-com.p.rapidapi.com/forecast.json?q=${coords[0]},${coords[1]}&days=5`,
         options
       )
         .then((response) => response.json())
@@ -32,6 +44,10 @@ const WeatherAPI = (props) => {
           const { current } = response;
           const { forecast } = response;
           console.log(response);
+          setFullLocationInfo(location);
+          setFullCurrentInfo(current);
+          setFullForecastInfo(forecast.forecast);
+
           setTemperature(current.temp_c);
           setIcon(current.condition.icon);
           setCity(location.name);
@@ -51,8 +67,15 @@ const WeatherAPI = (props) => {
           const time = date.toLocaleTimeString().slice(0, 5);
           setCurrentDate(`${day} ${time}`);
 
-          const forecastForToday = forecast.forecastday[0].hour;
+          setCurrentParsedTimeInSpecificCity(Date.parse(location.localtime));
+
+          const forecastForToday = [
+            ...forecast.forecastday[0].hour,
+            ...forecast.forecastday[1].hour.slice(0, 13),
+          ];
           setTodaysForecast(forecastForToday);
+          setForecastForThreeDays(forecast.forecastday);
+          setSunriseSunset(forecast.forecastday[0].astro);
         })
         .catch((error) => console.log(error));
     }
@@ -76,62 +99,91 @@ const WeatherAPI = (props) => {
       <div className="detailed-forecast-for-today">
         <div className="detailded-forecat-for-today-inner">
           {todaysForecast.map((hour, idx) => {
-            return (
-              <div className="forecast-for-specific-hour" key={idx}>
-                <div className="specific-hour-hour">{hour.time.slice(-5)}</div>
-                <div>
-                  <img
-                    src={hour.condition.icon}
-                    className="specific-hour-icon"
-                  />
-                </div>
-                <div>{`${hour.temp_c}°`}</div>
-                <div className="specific-hour-rain-chance">
-                  <div className="drop">
-                    <svg viewBox="0 0 50 42">
-                      <defs>
-                        <linearGradient
-                          id="grad1"
-                          x1="0%"
-                          y1="0%"
-                          x2="0%"
-                          y2="100%"
-                        >
-                          <stop
-                            offset="0.01"
-                            stopColor="#ffffff"
-                            stopOpacity={1}
-                          />
-                          <stop
-                            offset="0.01"
-                            stopColor="#0000ff"
-                            stopOpacity={1}
-                          />
-                        </linearGradient>
-                      </defs>
-                      <path
-                        id="tear"
-                        className="tear"
-                        d="M15 6
-                      Q 15 6, 25 18
-                      A 12.8 12.8 0 1 1 5 18
-                      Q 15 6 15 6z"
-                        fill="url(#grad1)"
-                      />
-                    </svg>
+            if (currentParsedTimeInSpecificCity < Date.parse(hour.time)) {
+              return (
+                <div className="forecast-for-specific-hour" key={idx}>
+                  <div className="specific-hour-hour">
+                    {hour.time.slice(-5)}
                   </div>
-                  <div className="specific-hour-percent">{`${hour.chance_of_rain}%`}</div>
+                  <div>
+                    <img
+                      src={hour.condition.icon}
+                      className="specific-hour-icon"
+                    />
+                  </div>
+                  <div>{`${hour.temp_c}°`}</div>
+                  <div className="specific-hour-rain-chance">
+                    <Drop percent={hour.chance_of_rain} />
+                    <div className="specific-hour-percent">{`${hour.chance_of_rain}%`}</div>
+                  </div>
                 </div>
-                {console.log(currentDate.slice(5, -3))}
-                {console.log(hour.time.slice(11, -3))}
-                {console.log(`CHANCE OF RAIN: ${hour.chance_of_rain}%`)}
-              </div>
-            );
+              );
+            }
           })}
         </div>
       </div>
-      <div className="forecast-for-few-days"></div>
-      <div className="sunrise-sunset"></div>
+      <div className="forecast-for-few-days">
+        {forecastForThreeDays.map((day) => {
+          const date = new Date(day.date);
+          const weekdays = [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+          ];
+          const curDay = weekdays[date.getDay()];
+
+          return (
+            <div className="forecast-for-day" key={day.date}>
+              <div className="weekday">
+                {date.getDay() == new Date().getDay() ? "Today" : curDay}
+              </div>
+              <div className="chance-of-rain">
+                <Drop className="drop" />
+                <div className="forecast-chance-of-rain">
+                  {day.day.daily_chance_of_rain}%
+                </div>
+              </div>
+
+              <div className="forecast-icon-container">
+                <img
+                  className="forecast-icon"
+                  src={`${day.day.condition.icon}`}
+                />
+              </div>
+              <div className="minmax-temp_c-container">
+                <div className="minmax-temp_c">
+                  <p className="minmax-min-max">Min:</p>
+                  <p>{day.day.mintemp_c}°</p>
+                </div>
+                <div className="minmax-temp_c">
+                  <p className="minmax-min-max">Max:</p>
+                  <p>{day.day.maxtemp_c}°</p>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div className="sunrise-sunset">
+        <div className="sunrise">
+          <p>Sunrise</p>
+          <p>{sunriseSunset.sunrise}</p>
+          <div className="sunrise-pic-container">
+            <img className="sunrise-pic" src="../src/images/sunrise.png" />
+          </div>
+        </div>
+        <div className="sunset">
+          <p>Sunset</p>
+          <p>{sunriseSunset.sunset}</p>
+          <div className="sunset-pic-container">
+            <img className="sunset-pic" src="../src/images/sunset.png" />
+          </div>
+        </div>
+      </div>
       <div className="additional-information"></div>
     </div>
   );
