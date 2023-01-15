@@ -1,0 +1,163 @@
+@mixin containerDefaultSetup {
+  height: auto;
+  width: 100%;
+  padding: 10px;
+}
+@mixin flex($direction, $justify, $align) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+.forecast-container {
+  margin-top: 30px;
+  width: 100%;
+  height: auto;
+  background-color: rgb(171, 237, 198);
+  padding: 10px;
+  box-sizing: border-box;
+  @include flex(column, flex-start, none);
+  gap: 20px;
+
+  background: rgba(255, 255, 255, 0.17);
+  border-radius: 1rem;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4.6px);
+  -webkit-backdrop-filter: blur(4.6px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
+  .main-information {
+    height: 160px;
+    @include flex(row, space-between, center);
+
+    .temperature-container {
+      width: 50%;
+      height: 100%;
+      padding: 10px 0px;
+      @include flex(column, flex-start, flex-start);
+
+      .temperature {
+        font-size: 42px;
+        margin-left: 20px;
+        margin-top: 20px;
+      }
+
+      .city {
+        margin-top: 8px;
+        margin-left: 20px;
+        font-size: large;
+      }
+
+      .feels-like {
+        margin-top: 20px;
+        margin-left: 20px;
+        font-size: 14px;
+      }
+      .current-date {
+        font-size: 14px;
+        margin-top: 2px;
+        margin-left: 20px;
+      }
+    }
+
+    .weather-icon-container {
+      width: 50%;
+      height: 100%;
+
+      background: rgba(255, 255, 255, 0.413);
+      border-radius: 1rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.068);
+      backdrop-filter: blur(4.6px);
+      -webkit-backdrop-filter: blur(4.6px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+
+      @include flex(column, center, center);
+
+      .weather-icon {
+        width: 90px;
+        aspect-ratio: 1/1;
+      }
+
+      .weather-icon-explaining {
+        text-align: center;
+        font-size: 15px;
+      }
+    }
+  }
+
+  .detailed-forecast-for-today {
+    width: 100%;
+    height: auto;
+    border-radius: 1rem;
+    padding: 10px 10px 5px;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.44);
+    gap: 5px;
+
+    .detailded-forecat-for-today-inner {
+      @include flex(row, flex-start, center);
+      gap: 5px;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      padding-bottom: 7px;
+
+      .forecast-for-specific-hour {
+        width: 45px;
+        padding: 5px;
+        border-radius: 0.5rem;
+        border: 1px solid black;
+        @include flex(column, flex-start, center);
+
+        .specific-hour-hour {
+          font-size: 11px;
+        }
+
+        .specific-hour-icon {
+          height: 30px;
+          aspect-ratio: 1/1;
+        }
+
+        .specific-hour-rain-chance {
+          margin-top: 10px;
+          height: 20px;
+          @include flex(row, space-between, center);
+
+          .specific-hour-percent {
+            font-size: 10px;
+          }
+
+          .drop {
+            width: 14px;
+            height: 14px;
+
+            .tear {
+              stroke: black;
+              stroke-width: 2px;
+            }
+          }
+        }
+      }
+
+      &::-webkit-scrollbar {
+        height: 5px;
+      }
+      &::-webkit-scrollbar-track {
+        background: #e3e3e3;
+      }
+      &::-webkit-scrollbar-track {
+        color: rgb(0, 159, 183);
+        border-radius: 0.2rem;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: rgb(0, 159, 183);
+        border-radius: 0.2rem;
+      }
+    }
+  }
+}
