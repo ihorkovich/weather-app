@@ -174,9 +174,6 @@
       border-radius: 0.5rem;
       position: relative;
       background-color: rgb(220, 229, 249, 0.5);
-      // @include flex(row, flex-start, center);
-
-      // border: 1px solid black;
     }
 
     .weekday {
@@ -230,6 +227,93 @@
       }
       .minmax-min-max {
         font-size: 12px;
+      }
+    }
+  }
+
+  .sunrise-sunset {
+    padding: 10px;
+    @include flex(row, space-around, center);
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.44);
+
+    .sunrise {
+      height: 100px;
+      @include flex(column, space-around, center);
+
+      .sunrise-text {
+        @include flex(column, center, center);
+
+        .sunrise-time {
+          font-size: 13px;
+        }
+      }
+
+      .sunrise-pic-container {
+        .sunrise-pic {
+          width: 100px;
+        }
+      }
+    }
+    .sunset {
+      height: 100px;
+      @include flex(column, space-around, center);
+
+      .sunset-text {
+        @include flex(column, center, center);
+
+        .sunset-time {
+          font-size: 13px;
+        }
+      }
+
+      .sunset-pic-container {
+        .sunset-pic {
+          width: 100px;
+        }
+      }
+    }
+  }
+
+  .additional-info {
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.44);
+    @include flex(row, space-around, center);
+
+    .line {
+      width: 2px;
+      height: 60px;
+      background: rgba(171, 171, 171, 0.576);
+      border-radius: 1rem;
+    }
+
+    .information {
+      height: 70px;
+      @include flex(column, space-between, center);
+      // border: 1px solid black;
+
+      .information-icon {
+        width: 30px;
+      }
+
+      .information-text {
+        font-size: 12px;
+        // border: 1px solid red;
+        height: 28px;
+        @include flex(column, space-between, center);
+
+        .information-title {
+          font-size: 15px;
+        }
       }
     }
   }

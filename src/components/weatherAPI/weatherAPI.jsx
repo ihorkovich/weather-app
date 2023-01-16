@@ -168,23 +168,78 @@ const WeatherAPI = (props) => {
           );
         })}
       </div>
-      <div className="sunrise-sunset">
-        <div className="sunrise">
-          <p>Sunrise</p>
-          <p>{sunriseSunset.sunrise}</p>
-          <div className="sunrise-pic-container">
-            <img className="sunrise-pic" src="../src/images/sunrise.png" />
+      {sunriseSunset != null && (
+        <div className="sunrise-sunset">
+          <div className="sunrise">
+            <div className="sunrise-text">
+              <p className="sunrise-title">Sunrise</p>
+              <p className="sunrise-time">{sunriseSunset.sunrise}</p>
+            </div>
+            <div className="sunrise-pic-container">
+              <img className="sunrise-pic" src="../src/images/sunrise.png" />
+            </div>
+          </div>
+          <div className="sunset">
+            <div className="sunset-text">
+              <p className="sunset-title">Sunset</p>
+              <p className="sunset-time">{sunriseSunset.sunset}</p>
+            </div>
+            <div className="sunset-pic-container">
+              <img className="sunset-pic" src="../src/images/sunset.png" />
+            </div>
           </div>
         </div>
-        <div className="sunset">
-          <p>Sunset</p>
-          <p>{sunriseSunset.sunset}</p>
-          <div className="sunset-pic-container">
-            <img className="sunset-pic" src="../src/images/sunset.png" />
+      )}
+      <div className="additional-info">
+        <div className="information">
+          <img src="../src/images/uv.png" className="information-icon" />
+          <div className="information-text">
+            <p className="information-title">UV index</p>
+            {(() => {
+              if (fullCurrentInfo != null) {
+                const { uv } = fullCurrentInfo;
+                console.log(fullCurrentInfo);
+
+                if (0 <= uv <= 2) {
+                  return <p>Low</p>;
+                } else if (3 <= uv <= 5) {
+                  return <p>Moderate</p>;
+                } else if (6 <= uv <= 7) {
+                  return <p>High</p>;
+                } else if (8 <= uv <= 10) {
+                  return <p>Very high</p>;
+                } else if (uv >= 11) {
+                  return <p>Extreme</p>;
+                }
+              }
+            })()}
+          </div>
+        </div>
+        <div className="line"></div>
+        <div className="information">
+          <img src="../src/images/humidity.png" className="information-icon" />
+          <div className="information-text">
+            <p className="information-title">Humidity</p>
+            {(() => {
+              if (fullCurrentInfo != null) {
+                return `${fullCurrentInfo.humidity}%`;
+              }
+            })()}
+          </div>
+        </div>
+        <div className="line"></div>
+        <div className="information">
+          <img src="../src/images/wind.png" className="information-icon" />
+          <div className="information-text">
+            <p className="information-title">Wind</p>
+            {(() => {
+              if (fullCurrentInfo != null) {
+                return `${fullCurrentInfo.wind_kph} km/h`;
+              }
+            })()}
           </div>
         </div>
       </div>
-      <div className="additional-information"></div>
     </div>
   );
 };
