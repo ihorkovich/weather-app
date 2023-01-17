@@ -4,7 +4,8 @@ import Drop from "../drop/drop";
 import "./weatherAPI.scss";
 
 const WeatherAPI = (props) => {
-  const { coords } = props;
+  let { coords } = props;
+  let { cityFromInput } = props;
 
   const [fullLocationInfo, setFullLocationInfo] = useState();
   const [fullCurrentInfo, setFullCurrentInfo] = useState();
@@ -19,9 +20,7 @@ const WeatherAPI = (props) => {
   const [currentParsedTimeInSpecificCity, setCurrentParsedTimeInSpecificCity] =
     useState();
   const [todaysForecast, setTodaysForecast] = useState([]);
-
   const [forecastForThreeDays, setForecastForThreeDays] = useState([]);
-
   const [sunriseSunset, setSunriseSunset] = useState();
 
   const options = {
@@ -33,9 +32,9 @@ const WeatherAPI = (props) => {
   };
 
   useEffect(() => {
-    if (coords) {
+    if (coords || cityFromInput) {
       fetch(
-        `https://weatherapi-com.p.rapidapi.com/forecast.json?q=${coords[0]},${coords[1]}&days=5`,
+        `https://weatherapi-com.p.rapidapi.com/forecast.json?q=${coords}&days=5`,
         options
       )
         .then((response) => response.json())
@@ -43,11 +42,9 @@ const WeatherAPI = (props) => {
           const { location } = response;
           const { current } = response;
           const { forecast } = response;
-          console.log(response);
           setFullLocationInfo(location);
           setFullCurrentInfo(current);
           setFullForecastInfo(forecast.forecast);
-
           setTemperature(current.temp_c);
           setIcon(current.condition.icon);
           setCity(location.name);
@@ -66,9 +63,7 @@ const WeatherAPI = (props) => {
           const day = weekdays[date.getDay()];
           const time = date.toLocaleTimeString().slice(0, 5);
           setCurrentDate(`${day} ${time}`);
-
           setCurrentParsedTimeInSpecificCity(Date.parse(location.localtime));
-
           const forecastForToday = [
             ...forecast.forecastday[0].hour,
             ...forecast.forecastday[1].hour.slice(0, 13),
@@ -80,6 +75,51 @@ const WeatherAPI = (props) => {
         .catch((error) => console.log(error));
     }
   }, [coords]);
+
+  useEffect(() => {
+    if (cityFromInput) {
+      fetch(
+        `https://weatherapi-com.p.rapidapi.com/forecast.json?q=${cityFromInput}&days=5`,
+        options
+      )
+        .then((response) => response.json())
+        .then((response) => {
+          const { location } = response;
+          const { current } = response;
+          const { forecast } = response;
+          setFullLocationInfo(location);
+          setFullCurrentInfo(current);
+          setFullForecastInfo(forecast.forecast);
+          setTemperature(current.temp_c);
+          setIcon(current.condition.icon);
+          setCity(location.name);
+          setIconExplaining(current.condition.text);
+          setFeelsLike(current.feelslike_c);
+          const date = new Date(location.localtime);
+          const weekdays = [
+            "Sun,",
+            "Mon,",
+            "Tues,",
+            "Wed,",
+            "Thurs,",
+            "Fri,",
+            "Sat,",
+          ];
+          const day = weekdays[date.getDay()];
+          const time = date.toLocaleTimeString().slice(0, 5);
+          setCurrentDate(`${day} ${time}`);
+          setCurrentParsedTimeInSpecificCity(Date.parse(location.localtime));
+          const forecastForToday = [
+            ...forecast.forecastday[0].hour,
+            ...forecast.forecastday[1].hour.slice(0, 13),
+          ];
+          setTodaysForecast(forecastForToday);
+          setForecastForThreeDays(forecast.forecastday);
+          setSunriseSunset(forecast.forecastday[0].astro);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [cityFromInput]);
 
   return (
     <div className="forecast-container">
@@ -198,8 +238,6 @@ const WeatherAPI = (props) => {
             {(() => {
               if (fullCurrentInfo != null) {
                 const { uv } = fullCurrentInfo;
-                console.log(fullCurrentInfo);
-
                 if (0 <= uv <= 2) {
                   return <p>Low</p>;
                 } else if (3 <= uv <= 5) {

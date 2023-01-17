@@ -11,7 +11,7 @@
 }
 
 .forecast-container {
-  margin-top: 30px;
+  margin-top: 15px;
   width: 100%;
   height: auto;
   background-color: rgb(171, 237, 198);
@@ -298,8 +298,8 @@
 
     .information {
       height: 70px;
+      width: 30%;
       @include flex(column, space-between, center);
-      // border: 1px solid black;
 
       .information-icon {
         width: 30px;
@@ -307,7 +307,6 @@
 
       .information-text {
         font-size: 12px;
-        // border: 1px solid red;
         height: 28px;
         @include flex(column, space-between, center);
 
