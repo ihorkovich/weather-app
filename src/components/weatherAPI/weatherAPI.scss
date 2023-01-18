@@ -111,7 +111,8 @@
         width: 45px;
         padding: 5px;
         border-radius: 0.5rem;
-        background-color: rgb(220, 229, 249, 0.5);
+        background-color: rgba(227, 238, 255, 0.5);
+        border: 0.5px solid rgba(216, 229, 255, 0.5);
         @include flex(column, flex-start, center);
 
         .specific-hour-hour {
@@ -126,7 +127,9 @@
         .specific-hour-rain-chance {
           margin-top: 10px;
           height: 20px;
+          width: 100%;
           @include flex(row, space-between, center);
+          // border: 1px solid black;
 
           .specific-hour-percent {
             font-size: 10px;
@@ -141,11 +144,10 @@
         background: #e3e3e3;
       }
       &::-webkit-scrollbar-track {
-        color: rgb(0, 159, 183);
         border-radius: 0.2rem;
       }
       &::-webkit-scrollbar-thumb {
-        background: rgb(0, 159, 183);
+        background: rgb(126, 189, 194);
         border-radius: 0.2rem;
       }
     }
@@ -173,7 +175,8 @@
       padding: 5px;
       border-radius: 0.5rem;
       position: relative;
-      background-color: rgb(220, 229, 249, 0.5);
+      background-color: rgba(227, 238, 255, 0.5);
+      border: 0.5px solid rgba(216, 229, 255, 0.5);
     }
 
     .weekday {
@@ -188,12 +191,12 @@
       margin-top: -15px;
       top: 50%;
       right: 10rem;
-      width: 40px;
+      width: 50px;
       height: 30px;
       @include flex(row, space-between, center);
 
       .drop {
-        aspect-ratio: 1/1;
+        height: 20px;
         width: 20px;
       }
       .forecast-chance-of-rain {
@@ -316,4 +319,8 @@
       }
     }
   }
+}
+
+.hidden {
+  display: none;
 }

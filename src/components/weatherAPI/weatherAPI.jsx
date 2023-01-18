@@ -7,6 +7,8 @@ const WeatherAPI = (props) => {
   let { coords } = props;
   let { cityFromInput } = props;
 
+  const [classes, setClasses] = useState("hidden");
+
   const [fullLocationInfo, setFullLocationInfo] = useState();
   const [fullCurrentInfo, setFullCurrentInfo] = useState();
   const [fullForecastInfo, setFullForecastInfo] = useState();
@@ -71,6 +73,7 @@ const WeatherAPI = (props) => {
           setTodaysForecast(forecastForToday);
           setForecastForThreeDays(forecast.forecastday);
           setSunriseSunset(forecast.forecastday[0].astro);
+          setClasses("");
         })
         .catch((error) => console.log(error));
     }
@@ -116,13 +119,14 @@ const WeatherAPI = (props) => {
           setTodaysForecast(forecastForToday);
           setForecastForThreeDays(forecast.forecastday);
           setSunriseSunset(forecast.forecastday[0].astro);
+          setClasses("");
         })
         .catch((error) => console.log(error));
     }
   }, [cityFromInput]);
 
   return (
-    <div className="forecast-container">
+    <div className={`forecast-container ${classes}`}>
       <div className="main-information">
         <div className="temperature-container">
           <div className="temperature">{`${temperature}°`}</div>
@@ -153,7 +157,7 @@ const WeatherAPI = (props) => {
                   </div>
                   <div>{`${hour.temp_c}°`}</div>
                   <div className="specific-hour-rain-chance">
-                    <Drop percent={hour.chance_of_rain} />
+                    <Drop percent={hour.chance_of_rain} size={11} />
                     <div className="specific-hour-percent">{`${hour.chance_of_rain}%`}</div>
                   </div>
                 </div>
@@ -182,7 +186,7 @@ const WeatherAPI = (props) => {
                 {date.getDay() == new Date().getDay() ? "Today" : curDay}
               </div>
               <div className="chance-of-rain">
-                <Drop className="drop" />
+                <Drop className="drop" size={13} />
                 <div className="forecast-chance-of-rain">
                   {day.day.daily_chance_of_rain}%
                 </div>
