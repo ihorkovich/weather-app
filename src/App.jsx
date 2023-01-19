@@ -1,5 +1,6 @@
 import { useState } from "react";
-import Greetings from "./components/greetings/greetings";
+import Background from "./components/background/background";
+import Logo from "./components/logo/logo";
 import CustomMap from "../src/components/map/map";
 import Input from "./components/input/input";
 import WeatherAPI from "./components/weatherAPI/weatherAPI";
@@ -19,11 +20,18 @@ function App() {
 
   return (
     <div className="App">
+      <Background />
       <div className="container">
-        <Greetings />
-        <CustomMap coordinates={getCoords} />
-        <Input cityFromInput={getCity} />
-        <WeatherAPI coords={coordinates} cityFromInput={cityFromInput} />
+        <Logo />
+        <div className="flex-container">
+          <div className="flex-map">
+            <CustomMap coordinates={getCoords} />
+          </div>
+          <div className="flex-info">
+            <Input cityFromInput={getCity} />
+            <WeatherAPI coords={coordinates} cityFromInput={cityFromInput} />
+          </div>
+        </div>
       </div>
     </div>
   );

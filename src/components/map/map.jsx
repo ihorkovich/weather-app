@@ -34,7 +34,7 @@ const CustomMap = (props) => {
         zoom={4}
         scrollWheelZoom={true}
         maxZoom={10}
-        minZoom={2}
+        minZoom={3}
         maxBounds={bounds}
         maxBoundsViscosity={1.0}
       >

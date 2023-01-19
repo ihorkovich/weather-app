@@ -1,0 +1,16 @@
+@media screen and (min-width: 1025px) {
+  .flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+
+    .flex-map {
+      width: 50%;
+    }
+
+    .flex-info {
+      width: 50%;
+    }
+  }
+}

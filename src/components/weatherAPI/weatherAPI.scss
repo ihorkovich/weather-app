@@ -129,7 +129,6 @@
           height: 20px;
           width: 100%;
           @include flex(row, space-between, center);
-          // border: 1px solid black;
 
           .specific-hour-percent {
             font-size: 10px;
@@ -142,8 +141,6 @@
       }
       &::-webkit-scrollbar-track {
         background: #e3e3e3;
-      }
-      &::-webkit-scrollbar-track {
         border-radius: 0.2rem;
       }
       &::-webkit-scrollbar-thumb {

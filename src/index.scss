@@ -122,22 +122,39 @@ table {
   border-spacing: 0;
 }
 
-body {
-  font-family: "Sofia Sans Semi Condensed", sans-serif;
-  background-color: rgb(239, 241, 243);
+html {
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
-.container {
-  padding: 20px 15px;
+body {
+  font-family: "Sofia Sans Semi Condensed", sans-serif;
+  height: 100vh;
 }
 
 @media screen and (max-width: 640px) {
+  .container {
+    padding: 20px 15px;
+  }
 }
-@media screen and (max-width: 768px) {
+
+@media screen and (min-width: 641px) and (max-width: 768px) {
+  .container {
+    padding: 20px 40px;
+  }
 }
-@media screen and (max-width: 1024px) {
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    padding: 20px 90px;
+  }
 }
-@media screen and (max-width: 1280px) {
-}
-@media screen and (max-width: 1536px) {
+
+@media screen and (min-width: 1025px) {
+  .container {
+    width: 1000px;
+    padding: 20px 0px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
