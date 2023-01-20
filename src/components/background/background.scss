@@ -6,6 +6,7 @@
 
 .snow-container {
   filter: blur(2px);
+  user-select: none;
 }
 .snow {
   $total: 200;

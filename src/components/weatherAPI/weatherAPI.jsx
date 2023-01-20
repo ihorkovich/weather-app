@@ -25,16 +25,17 @@ const WeatherAPI = (props) => {
   const [forecastForThreeDays, setForecastForThreeDays] = useState([]);
   const [sunriseSunset, setSunriseSunset] = useState();
 
+  const weatherApiKey = import.meta.env.VITE_WEATHER_API_KEY;
   const options = {
     method: "GET",
     headers: {
-      "X-RapidAPI-Key": "e4986dddd6msh8569c658d0e09ffp13430ejsnefac55440e8f",
+      "X-RapidAPI-Key": weatherApiKey,
       "X-RapidAPI-Host": "weatherapi-com.p.rapidapi.com",
     },
   };
 
   useEffect(() => {
-    if (coords || cityFromInput) {
+    if (coords) {
       fetch(
         `https://weatherapi-com.p.rapidapi.com/forecast.json?q=${coords}&days=5`,
         options
