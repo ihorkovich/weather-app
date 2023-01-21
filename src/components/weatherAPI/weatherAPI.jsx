@@ -3,6 +3,12 @@ import { useEffect, useState } from "react";
 import Drop from "../drop/drop";
 import "./weatherAPI.scss";
 
+import sunrise from "/images/sunrise.png";
+import sunset from "/images/sunset.png";
+import uv from "/images/uv.png";
+import humidity from "/images/humidity.png";
+import wind from "/images/wind.png";
+
 const WeatherAPI = (props) => {
   let { coords } = props;
   let { cityFromInput } = props;
@@ -221,7 +227,7 @@ const WeatherAPI = (props) => {
               <p className="sunrise-time">{sunriseSunset.sunrise}</p>
             </div>
             <div className="sunrise-pic-container">
-              <img className="sunrise-pic" src="../src/images/sunrise.png" />
+              <img className="sunrise-pic" src={sunrise} />
             </div>
           </div>
           <div className="sunset">
@@ -230,14 +236,14 @@ const WeatherAPI = (props) => {
               <p className="sunset-time">{sunriseSunset.sunset}</p>
             </div>
             <div className="sunset-pic-container">
-              <img className="sunset-pic" src="../src/images/sunset.png" />
+              <img className="sunset-pic" src={sunset} />
             </div>
           </div>
         </div>
       )}
       <div className="additional-info">
         <div className="information">
-          <img src="../src/images/uv.png" className="information-icon" />
+          <img src={uv} className="information-icon" />
           <div className="information-text">
             <p className="information-title">UV index</p>
             {(() => {
@@ -260,7 +266,7 @@ const WeatherAPI = (props) => {
         </div>
         <div className="line"></div>
         <div className="information">
-          <img src="../src/images/humidity.png" className="information-icon" />
+          <img src={humidity} className="information-icon" />
           <div className="information-text">
             <p className="information-title">Humidity</p>
             {(() => {
@@ -272,7 +278,7 @@ const WeatherAPI = (props) => {
         </div>
         <div className="line"></div>
         <div className="information">
-          <img src="../src/images/wind.png" className="information-icon" />
+          <img src={wind} className="information-icon" />
           <div className="information-text">
             <p className="information-title">Wind</p>
             {(() => {

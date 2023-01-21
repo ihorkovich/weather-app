@@ -1,4 +1,5 @@
 import "./input.scss";
+import search from "/images/search.png";
 
 const Input = (props) => {
   const setCity = (e) => {
@@ -10,7 +11,7 @@ const Input = (props) => {
     <form onSubmit={setCity} className="form">
       <input type="text" className="form-input" placeholder="Enter the city" />
       <button type="submit" className="form-button">
-        <img src="../src/images/search.png" className="form-button-icon" />
+        <img src={search} className="form-button-icon" />
       </button>
     </form>
   );
